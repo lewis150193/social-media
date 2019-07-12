@@ -5,13 +5,33 @@ import './App.css'
 import SignUp from './pages/signUp'
 import Login from './pages/login'
 import {NavWithRouter} from './components/NavBar'
+import MUIThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import CreateTheme from '@material-ui/core/styles/createMuiTheme'
+
+const theme = CreateTheme({
+    palette: {
+        primary: {
+            light: '#757ce8',
+            main: '#3f50b5',
+            dark: '#002884',
+            contrastText: '#fff',
+        },
+        secondary: {
+            light: '#ff7961',
+            main: '#f44336',
+            dark: '#ba000d',
+            contrastText: '#000',
+        },
+    },
+    });
+
 
 export const Root = () => {
-
     return(
+        <MUIThemeProvider theme={theme}>
     <Router>
-        <div className="container">
             <NavWithRouter/>
+        <div className="container">
         <Switch>
             <Route  exact path={'/'} component={Home}/>
             <Route path={'/login'} component={Login}/>
@@ -19,5 +39,6 @@ export const Root = () => {
         </Switch>
         </div>
     </Router>
+        </MUIThemeProvider>
     )
 };
