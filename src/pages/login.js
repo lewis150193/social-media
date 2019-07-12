@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField'
+import TextField from '@material-ui/core/TextField';
+import env from '../images/env.png'
 import {withStyles} from "@material-ui/core";
+import axios from 'axios';
+import Typography from '@material-ui/core/Typography';
 
 const styles = {
     button: {
@@ -11,48 +14,85 @@ const styles = {
     input: {
         display: 'none',
     },
+    form: {
+        textAlign: 'center'
+    },
+    pageTitle: {
+
+    },
+    img: {
+        paddingTop: 30
+    }
 };
 
 const Login = (props) => {
     const {classes} = props;
-    console.log(props);
     const [input, changeInput] = useState({
         email: '',
-        password: ''
+        password: '',
+        loading: false,
+        errors: {}
     });
 
     const onChange =  data => e => {
-        changeInput({...input, [data]: e.target.value})
+        changeInput({...input, [data]: e.target.value});
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(input.email);
+        console.log(input.password);
+        console.log(input.loading);
+        console.log(input.errors);
+        axios.post('/login')
+            .then( success => {
+                console.log(success)
+                if(success.statusCode === 200){
+                    console.log('You have logged in!!!')
+                }
+            })
+            .catch( error => {
+                console.log(error)
+            })
+
     };
 
         return (
-            <Grid container>
-                <Grid item sm={5} xs={9}>
+            <Grid container className={classes.form}>
+                <Grid item sm>
                 </Grid>
                 <Grid item>
-                    <form className={classes.container} noValidate autoComplete="off">
+                    <img src={env} style={{width: 25, height: 25}} alt="env" className={classes.img}/>
+                    <Typography variant="h3" className={classes.pageTitle}>
+                        Login
+                    </Typography>
+                    <form  className={classes.container} onClick={e =>handleSubmit(e)} noValidate autoComplete="off">
                         <TextField
-                            id="standard-name"
+                            id="email"
+                            type="email"
                             label="Email"
                             className={classes.textField}
                             value={input.email}
                             onChange={onChange('email')}
                             margin="normal"
+                            fullWidth
                         />
                         <TextField
-                            id="standard-name"
+                            id="password"
                             label="Password"
+                            type="password"
                             className={classes.textField}
                             value={input.password}
                             onChange={onChange('password')}
                             margin="normal"
+                            fullWidth
                         />
-                    <Button variant="contained" color="primary" className={classes.button}>
+                    <Button  type="submit" variant="contained" color="primary" className={classes.button}>
                         Login
                     </Button>
                     </form>
                 </Grid>
-                <Grid item sm={4} xs={5}>
+                <Grid item sm>
                 </Grid>
 
             </Grid>
