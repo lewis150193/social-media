@@ -22,6 +22,10 @@ const styles = {
     },
     img: {
         paddingTop: 30
+    },
+    signUp: {
+        cursor: 'pointer',
+        onHover: 'blue'
     }
 };
 
@@ -44,7 +48,10 @@ const Login = (props) => {
         console.log(input.password);
         console.log(input.loading);
         console.log(input.errors);
-        axios.post('/login')
+        axios.post('/login',{
+            email: input.email,
+            password: input.password
+        })
             .then( success => {
                 console.log(success)
                 if(success.statusCode === 200){
@@ -87,10 +94,11 @@ const Login = (props) => {
                             margin="normal"
                             fullWidth
                         />
-                    <Button  type="submit" variant="contained" color="primary" className={classes.button}>
+                    <Button  type="submit" variant="contained" color="primary" className={classes.button} href={null}>
                         Login
                     </Button>
                     </form>
+                    <Typography className={classes.signUp} variant="caption" onClick={() => props.history.push('/signup')} >Dont have a account? Sign up!</Typography>
                 </Grid>
                 <Grid item sm>
                 </Grid>
