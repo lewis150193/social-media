@@ -7,7 +7,10 @@ import Login from './pages/login'
 import {NavWithRouter} from './components/NavBar'
 import MUIThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import CreateTheme from '@material-ui/core/styles/createMuiTheme'
+// import axios from 'axios';
 
+
+// axios.defaults.baseURL = 'https://us-central1-social-backend-452e5.cloudfunctions.net/api';
 const theme = CreateTheme({
     palette: {
         primary: {
