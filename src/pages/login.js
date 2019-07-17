@@ -4,8 +4,10 @@ import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField';
 import env from '../images/env.png'
 import {withStyles} from "@material-ui/core";
-import axios from 'axios';
 import Typography from '@material-ui/core/Typography';
+
+import {connect} from "react-redux";
+import {LoginUser} from "../redux/actions/userActions";
 
 const styles = {
     button: {
@@ -48,22 +50,13 @@ const Login = (props) => {
         console.log(input.password);
         console.log(input.loading);
         console.log(input.errors);
-        axios.post('/login',{
-            email: input.email,
-            password: input.password
-        })
-            .then( success => {
-                console.log(success)
-                if(success.statusCode === 200){
-                    console.log('You have logged in!!!')
-                }
-            })
-            .catch( error => {
-                console.log(error)
-            })
+        const user = {user: input.email, password: input.password}
+        props.loginUser(user,props.history)
 
     };
 
+    console.log(props.UI);
+    console.log(props.login)
         return (
             <Grid container className={classes.form}>
                 <Grid item sm>
@@ -107,5 +100,13 @@ const Login = (props) => {
         );
     };
 
+const mapStateToProps = (state) => ({
+    login: state.user,
+    UI: state.ui
+})
 
-export default withStyles(styles)(Login);
+const mapDispatchToProps = {
+    loginUser: LoginUser
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Login));

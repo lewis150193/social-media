@@ -33,7 +33,7 @@ const Posts = (props) => {
             <CardMedia
             className={classes.image}
             title={props.post.user}
-            image={props.post.userImg}
+            imag e={props.post.userImg}
              />
             <CardContent className={classes.details}>
             <Typography variant={"h6"} onClick={() => props.history.push(`/users/${props.post.user}`)}>{props.post.user}</Typography>
