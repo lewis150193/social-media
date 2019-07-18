@@ -33,7 +33,7 @@ const Posts = (props) => {
             <CardMedia
             className={classes.image}
             title={props.post.user}
-            image="https://firebasestorage.googleapis.com/v0/b/social-backend-452e5.appspot.com/o/noimage.png?alt=media&token=e2caef99-8c95-46c1-aeb2-e64d31b000bc"
+            image={props.post.userImg}
              />
             <CardContent className={classes.details}>
             <Typography variant={"h6"} onClick={() => props.history.push(`/users/${props.post.user}`)}>{props.post.user}</Typography>
