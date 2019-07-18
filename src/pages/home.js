@@ -26,7 +26,7 @@ class Home extends Component {
             this.state.posts.map( post => {
             return(
                 <>
-                    <Posts post={post}
+                    <Posts key={post.screamId}post={post}
                     />
                 </>
             )
