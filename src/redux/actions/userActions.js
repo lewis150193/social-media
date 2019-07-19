@@ -1,4 +1,4 @@
-import { LOADING_UI, SET_USER, CLEAR_ERRORS, SET_ERRORS } from "../types";
+import { LOADING_UI, SET_USER, CLEAR_ERRORS, SET_ERRORS, LOADING_USER } from "../types";
 import axios from "axios";
 
 export const LoginUser = (userData, history) => dispatch => {
@@ -52,6 +52,7 @@ export const signUp = (userData, history) => dispatch => {
 };
 
 export const getUserData = () => dispatch => {
+  dispatch({type: LOADING_USER})
   axios
     .get("https://us-central1-social-backend-452e5.cloudfunctions.net/api/user")
     .then(res => {

@@ -1,4 +1,5 @@
 export const LOGIN = 'LOGIN';
+export const SET_LOADING = 'LOGIN';
 export const SIGNUP = 'SIGNUP';
 export const GETPOSTS = 'GETPOSTS';
 export const SET_AUTHENTICATED = 'SET_AUTHENTICATED';

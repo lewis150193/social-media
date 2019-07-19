@@ -1,50 +1,104 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-
+import  withStyles  from '@material-ui/core/styles/withStyles';
+import { withRouter } from "react-router";
 import Typography from '@material-ui/core/Typography';
+import {connect} from 'react-redux'
+import Link from '@material-ui/core/Link'
+import LocationOn from '@material-ui/icons/LocationOn'
+import LinkIcon from '@material-ui/icons/Link'
+import Calendar from '@material-ui/icons/CalendarToday'
 
-const useStyles = makeStyles({
-  card: {
-    maxWidth: 345,
-  },
-  media: {
-    height: 140,
-    minHeight: 150
-  },
-});
+import Button from '@material-ui/core/Button'
+import Paper  from '@material-ui/core/Paper';
 
+const styles = { paper: {
+    padding: 20
+  },
+  profile: {
+    '& .image-wrapper': {
+      textAlign: 'center',
+      position: 'relative',
+      '& button': {
+        position: 'absolute',
+        top: '80%',
+        left: '70%'
+      }
+    },
+    '& .profile-image': {
+      width: 200,
+      height: 200,
+      objectFit: 'cover',
+      maxWidth: '100%',
+      borderRadius: '50%'
+    },
+    '& .profile-details': {
+      textAlign: 'center',
+      '& span, svg': {
+        verticalAlign: 'middle'
+      },
+      '& a': {
+        color: '#00bcd4'
+      }
+    },
+    '& hr': {
+      border: 'none',
+      margin: '0 0 10px 0'
+    },
+    '& svg.button': {
+      '&:hover': {
+        cursor: 'pointer'
+      }
+    }
+  },
+  buttons: {
+    textAlign: 'center',
+    '& a': {
+      margin: '20px 10px'
+    }
+  }
+    }; 
 const Profile = props => {
-  const classes = useStyles();
+    const {
+        classes,
+        user: {
+            credentials: {handler, created, userImg, bio, website, location},
+            loading,
+            authenticated
+        }
+    } = props;
 
-  return (
-    <Card className={classes.card}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={props.user.userImg}
-          title="User"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {props.user.handler}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {props.user.bio}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {props.user.location}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {props.user.website}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-  );
+    let profileMarkUp = !loading ? (authenticated ? 
+        (
+            <Paper className={classes.paper}>
+               <div className={classes.profile}>
+                   <div className="profile-image">
+                        <img   src={userImg} alt="user" className="profile-image"/>
+                    </div> 
+                    <hr/>
+                    <div className="profile-details">
+                <Link color="primary" onClick={(() => props.history.push(`/user/${handler}`))}>
+                    @{handler}
+                    </Link>
+                    <hr/>
+                    {bio && 
+                    <Typography variant="body2">{bio}</Typography>
+                    }
+                    <hr/>
+                    {location && (
+                        <LocationOn color="primary" />
+
+                    )}
+                    {website &&  <Typography variant="body2">{website}</Typography>}
+               </div>
+               </div>
+            </Paper>
+        ) : (<p>Run that my guy</p>)) : (<p>Loading...</p>)
+
+  return profileMarkUp;
 }
 
-export default Profile;
+
+ const mapStateToProps = state => ({
+     user: state.user
+ })
+export default connect(mapStateToProps)(withRouter(withStyles(styles)(Profile)));
