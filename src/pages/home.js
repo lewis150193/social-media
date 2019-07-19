@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-// import { getPosts } from "../data/postData";
 import {Grid} from "@material-ui/core";
 import Posts from "../components/Posts";
-
+import { connect } from 'react-redux'
+import {getUserData} from '../redux/actions/userActions'
+import Profile from '../components/Profile';
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -18,10 +19,12 @@ class Home extends Component {
              this.setState({posts: posts.data})
          })
          .catch(err => console.log(err));
+         this.props.getUserData();
  }
 
     render() {
      console.log(this.state.posts);
+     console.log(this.props);
         const showPosts = this.state.posts ?
             this.state.posts.map( post => {
             return(
@@ -38,11 +41,19 @@ class Home extends Component {
                     <p>{showPosts}</p>
                 </Grid>
                 <Grid item sm={4} xs={12}>
-                    <p>...Profile</p>
+                    <Profile user={this.props.user.credentials}/>
                 </Grid>
             </Grid>
         );
     }
 }
 
-export default Home;
+const mapStateToProps = state => ({
+    user: state.user
+})
+
+const mapDispatchToProps = {
+   getUserData: getUserData
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

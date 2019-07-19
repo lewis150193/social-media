@@ -9,6 +9,10 @@ import MUIThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import CreateTheme from '@material-ui/core/styles/createMuiTheme'
 import {Provider} from 'react-redux';
 import store from './redux/store';
+import jwtDecode from 'jwt-decode'
+import {SET_AUTHENTICATED}   from './redux/types'
+import {getUserData}   from './redux/actions/userActions'
+import axios from 'axios';
 // import axios from 'axios';
 
 
@@ -30,6 +34,19 @@ const theme = CreateTheme({
     },
     });
 
+
+    const token = localStorage.FBIDToken;
+    if (token){
+        const decodedToken = jwtDecode(token)
+        if(decodedToken.exp * 1000 <  Date.now()){
+            // store.dispatch(logoutUser())
+            window.location.href = "/login"
+        } else {
+            store.dispatch({type: SET_AUTHENTICATED});
+            axios.defaults.headers.common['Authorization'] = token
+            store.dispatch(getUserData());
+        }
+    }
 
 export const Root = () => {
     return(

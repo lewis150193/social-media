@@ -4,8 +4,9 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import env from "../images/env.png";
 import { withStyles } from "@material-ui/core";
-import axios from "axios";
 import Typography from "@material-ui/core/Typography";
+import {signUp} from '../redux/actions/userActions'
+import { connect } from 'react-redux';
 
 const styles = {
   button: {
@@ -44,30 +45,14 @@ const SignUp = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    axios
-      .post(
-        "https://us-central1-social-backend-452e5.cloudfunctions.net/api/signup",
+      props.signUpAction(
         {
           handler: input.handler,
           email: input.email,
           confirmPassword: input.confirmPassword,
           password: input.password
-        }
-      )
-      .then(success => {
-        console.log(success.data);
-        localStorage.setItem("FBIDToken", `Bearer ${success.token}`);
-        if (success.status === 201) {
-          console.log("You have logged in!!!");
-          console.log(success.data.email);
-          console.log(success.data.token);
-          props.history.push("/");
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+        },props.history)
+      };
 
   return (
     <Grid container className={classes.form}>
@@ -152,4 +137,13 @@ const SignUp = props => {
   );
 };
 
-export default withStyles(styles)(SignUp);
+const mapStateToProps = state => ({
+  UI: state.ui,
+  user: state.user
+})
+
+const mapDispatchToProps = {
+  signUpAction: signUp
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(SignUp));

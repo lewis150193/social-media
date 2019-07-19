@@ -1,9 +1,5 @@
 import {
-  SIGNUP,
-  LOADING_UI,
   SET_USER,
-  CLEAR_ERRORS,
-  SET_ERRORS,
   SET_AUTHENTICATED,
   SET_UNAUTHENTICATED
 } from "../types";
