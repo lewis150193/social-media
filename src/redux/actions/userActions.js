@@ -18,7 +18,7 @@ export const LoginUser = (userData, history) => dispatch => {
       history.push("/");
     })
     .catch(error => {
-      console.log(error);
+
       dispatch({
         type: SET_ERRORS,
         payload: error.response.data
@@ -28,7 +28,7 @@ export const LoginUser = (userData, history) => dispatch => {
 
 export const getUserData = () => dispatch => {
   axios
-    .get("/user")
+    .get("https://us-central1-social-backend-452e5.cloudfunctions.net/api/user")
     .then(res => {
       dispatch({
         type: SET_USER,
