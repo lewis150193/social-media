@@ -10,6 +10,10 @@ import Calendar from '@material-ui/icons/CalendarToday'
 
 import Button from '@material-ui/core/Button'
 import Paper  from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import Axios from 'axios';
+import { changeImage } from '../redux/actions/userActions';
 
 const styles = { paper: {
     padding: 20
@@ -67,12 +71,37 @@ const Profile = props => {
         }
     } = props;
 
+    const handleImageChange = (e) => {
+      console.log(457747)
+      const image = e.target.files[0];
+      const formData = new FormData();
+      formData.append('image', image, image.name)
+      props.changeImage(formData)
+      //send to server
+
+    }
+
+    const handleEditImage = () => {
+      console.log('clickme')
+        const link = document.getElementById('imgInput');
+        link.click();
+    }
+
     let profileMarkUp = !loading ? (authenticated ? 
         (
             <Paper className={classes.paper}>
                <div className={classes.profile}>
                    <div className="profile-image">
-                        <img   src={userImg} alt="user" className="profile-image"/>
+                        <img src={userImg} alt="user" className="profile-image"/>
+                        <input 
+                        type="file"
+                        id="imgInput"
+                        hidden="hidden"
+                        onChange={(e) => handleImageChange(e)}
+                        />
+                        <IconButton onClick={() => handleEditImage()} className="button">
+                          <EditIcon color="primary" />
+                        </IconButton>
                     </div> 
                     <hr/>
                     <div className="profile-details">
@@ -85,7 +114,8 @@ const Profile = props => {
                     }
                     <hr/>
                     {location && (
-                        <LocationOn color="primary" />
+                    <>    <LocationOn color="primary"/> <Typography variant="body2">{location}</Typography> </>
+
 
                     )}
                     {website &&  <Typography variant="body2">{website}</Typography>}
@@ -100,5 +130,10 @@ const Profile = props => {
 
  const mapStateToProps = state => ({
      user: state.user
+    
  })
-export default connect(mapStateToProps)(withRouter(withStyles(styles)(Profile)));
+
+ const mapDispatchToProps = {
+  changeImage: changeImage
+ }
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(Profile)));

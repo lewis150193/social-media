@@ -51,6 +51,15 @@ export const signUp = (userData, history) => dispatch => {
     });
 };
 
+export const changeImage = formData => dispatch => {
+  dispatch({type: LOADING_USER});
+  axios.post('https://us-central1-social-backend-452e5.cloudfunctions.net/api/user/image', formData)
+  .then(() => {
+    dispatch(getUserData());
+  })
+  .catch( err => console.log(err))
+}
+
 export const getUserData = () => dispatch => {
   dispatch({type: LOADING_USER})
   axios

@@ -4,6 +4,7 @@ import Home from './pages/home'
 import './App.css'
 import SignUp from './pages/signUp'
 import Login from './pages/login'
+import ProfilePage from './pages/profilePage'
 import {NavWithRouter} from './components/NavBar'
 import MUIThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import CreateTheme from '@material-ui/core/styles/createMuiTheme'
@@ -59,6 +60,7 @@ export const Root = () => {
             <Route exact path={'/'} component={Home}/>
             <Route path={'/login'} component={Login}/>
             <Route path={'/signup'} component={SignUp}/>
+            <Route path={'/user/:handler'} component={ProfilePage}/>
         </Switch>
         </div>
     </Router>
