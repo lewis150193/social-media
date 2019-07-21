@@ -5,7 +5,7 @@ import './App.css'
 import SignUp from './pages/signUp'
 import Login from './pages/login'
 import ProfilePage from './pages/profilePage'
-import {NavWithRouter} from './components/NavBar'
+import NavWithRouter from './components/NavBar'
 import MUIThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import CreateTheme from '@material-ui/core/styles/createMuiTheme'
 import {Provider} from 'react-redux';
